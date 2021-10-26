@@ -5,6 +5,7 @@
 
 #define MOD_STDR 12
 #define LIST_LEN_STDR 12
+#define MAX_LEN_LIST 256
 
 enum INLETS { I_INPUT, I_LIST, NUM_INLETS };
 enum OUTLETS { O_OUTPUT, NUM_OUTLETS };
@@ -14,7 +15,7 @@ typedef struct {
 	t_object obj;
 	
 	long mod_value;
-	long *list;
+	long list[MAX_LEN_LIST];
 	long list_len;
 
 	void *m_outlet;

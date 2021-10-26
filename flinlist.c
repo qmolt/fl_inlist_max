@@ -24,15 +24,11 @@ void *fl_inlist_new(t_symbol *s, short argc, t_atom *argv)
 
 	x->mod_value = MOD_STDR;
 	x->list_len = LIST_LEN_STDR;
-	x->list = (long *)sysmem_newptr(LIST_LEN_STDR * sizeof(long));
 	
-	if (!x->list) { object_error((t_object *)x, "no memory for a 12-long pointer... really?"); }
-	else {
-		for (long i = 0; i < x->list_len; i++) {
-			x->list[i] = i;
-		}
+	for (long i = 0; i < LIST_LEN_STDR; i++) {
+		x->list[i] = i;
 	}
-
+	
 	return x;
 }
 
@@ -79,15 +75,15 @@ void fl_inlist_list(t_fl_inlist *x, t_symbol *s, long argc, t_atom *argv)
 	long ac = argc;
 	t_atom *ap = argv;
 	long mod_val = x->mod_value;
+	long list_len;
 
-	x->list = (long *)sysmem_resizeptr(x->list, ac * sizeof(long));
-	if (!x->list) { object_error((t_object *)x, "no memory for list"); return; }
+	list_len = min(ac, MAX_LEN_LIST);
 
-	x->list_len = ac;
-
-	for (long i = 0; i < ac; i++) {
+	for (long i = 0; i < list_len; i++) {
 		x->list[i] = ((long)atom_getlong(ap + i)) % mod_val;
 	}
+
+	x->list_len = list_len;
 }
 
 void fl_inlist_mod_val(t_fl_inlist *x, t_symbol *s, long argc, t_atom *argv)
