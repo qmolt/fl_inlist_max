@@ -8,7 +8,7 @@
 #define MAX_LEN_LIST 256
 
 enum INLETS { I_INPUT, I_LIST, NUM_INLETS };
-enum OUTLETS { O_OUTPUT, NUM_OUTLETS };
+enum OUTLETS { O_OUTPUT, O_OUTPUT2, NUM_OUTLETS };
 
 typedef struct {
 
@@ -19,6 +19,7 @@ typedef struct {
 	long list_len;
 
 	void *m_outlet;
+	void *m_outlet2;
 
 } t_fl_inlist;
 
