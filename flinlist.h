@@ -3,9 +3,11 @@
 #include "z_dsp.h"  
 #include <math.h>
 
-#define MOD_STDR 12
-#define LIST_LEN_STDR 12
+#define DFLT_MODBASE 12
+#define DFLT_LIST_LEN 0
 #define MAX_LEN_LIST 256
+
+enum FILTER_MODE { FM_NONE, FM_CHROM_DOWN, FM_CHROM_UP, FM_DIAT_DOWN, FM_DIAT_UP, FM_TOTAL };
 
 enum INLETS { I_INPUT, I_LIST, NUM_INLETS };
 enum OUTLETS { O_OUTPUT, O_OUTPUT2, NUM_OUTLETS };
@@ -14,8 +16,9 @@ typedef struct {
 
 	t_object obj;
 	
-	long mod_value;
-	long list[MAX_LEN_LIST];
+	short filter_mode;
+	long mod_base;
+	long map_list[MAX_LEN_LIST];
 	long list_len;
 
 	void *m_outlet;
@@ -30,5 +33,8 @@ void fl_inlist_int(t_fl_inlist *x, long n);
 void fl_inlist_float(t_fl_inlist *x, double f);
 void fl_inlist_list(t_fl_inlist *x, t_symbol *s, long argc, t_atom *argv);
 void fl_inlist_mod_val(t_fl_inlist *x, t_symbol *s, long argc, t_atom *argv);
+void fl_inlist_filter_mode(t_fl_inlist *x, t_symbol *s, long argc, t_atom *argv);
+
+long z_mod(long x, long base);
 
 static t_class *fl_inlist_class;
